@@ -2,15 +2,7 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 
-var myMovies = [
-    {
-        id: "0",
-        name: "Titanic"},
-    {
-        id: "1",
-        name: "Bad Boys"
-    }
-];
+var myMovies = [];
 
 /* GET all movies. */
 router.get('/', (req, res) => {
@@ -26,10 +18,27 @@ router.get('/:id', (req, res) => {
 
 
     res.status(200).json({
-        message: 'Movie Found',
+        message: 'Movie Founde',
         movie
     });
 });
+
+/* PUT add movie . */
+router.put('/', (req, res) => {
+    
+    const { name, info } = req.body;
+
+    const id = _.uniqueId();
+
+    myMovies.push({name, info, id});
+
+    res.status(200).json({
+        message: `Movie just added ${id}`,
+        movie: {name, info, id}
+    });
+});
+
+
 
 
 
