@@ -55,6 +55,21 @@ router.post('/:id', (req, res) => {
     });
 });
 
+/* DELETE movie by id . */
+router.delete('/:id', (req, res) => {
+    
+    const { id } = req.params;
+
+    _.remove(myMovies, ['id', id]);
+
+    res.status(200).json({
+        message: `Movie just remove ${id}`,
+    });
+});
+
+
+
+
 
 
 
