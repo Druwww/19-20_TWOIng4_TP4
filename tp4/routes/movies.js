@@ -38,6 +38,23 @@ router.put('/', (req, res) => {
     });
 });
 
+/* POST update movie by id . */
+router.post('/:id', (req, res) => {
+    
+    const { id } = req.params;
+    const { name, info } = req.body;
+
+    const movieToUpdate = _.find(myMovies, ['id', id]);
+
+    movieToUpdate.name = name;
+    movieToUpdate.info = info;
+
+    res.status(200).json({
+        message: `Movie just update ${id}`,
+        movie: {name, info, id}
+    });
+});
+
 
 
 
