@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
+const axios = require('axios').default;
+
 
 var myMovies = [];
 
@@ -26,16 +28,25 @@ router.get('/:id', (req, res) => {
 /* PUT add movie . */
 router.put('/', (req, res) => {
     
-    const { name, info } = req.body;
+    const { name} = req.body;
 
     const id = _.uniqueId();
 
-    myMovies.push({name, info, id});
 
-    res.status(200).json({
-        message: `Movie just added ${id}`,
-        movie: {name, info, id}
-    });
+    axios({
+            method: 'get',
+            url: `http://www.omdbapi.com/?t=${name}&apikey=56d06498`,
+            responseType: 'json'
+        })
+        .then(function (response) {
+            console.log(response.data);
+            maData = response.data;
+            myMovies.push({ maData, id});
+            res.status(200).json({
+                message: `Movie just added ${id}`,
+                movie: {maData}
+            });
+        });
 });
 
 /* POST update movie by id . */
@@ -66,12 +77,6 @@ router.delete('/:id', (req, res) => {
         message: `Movie just remove ${id}`,
     });
 });
-
-
-
-
-
-
 
 
 module.exports = router;
